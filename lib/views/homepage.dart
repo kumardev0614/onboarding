@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onboarding/server/socketIo/socket_server.dart';
+import 'package:onboarding/server/socketIo/socket_client.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -7,7 +7,7 @@ connectToServer() {
   try {
     socket = io(
         // herokusocketurl,
-        'http://192.168.1.3:3000',
+        'http://192.168.1.7:3000',
         OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .disableAutoConnect() // disable auto-connection
