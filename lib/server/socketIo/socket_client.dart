@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
 
 late Socket socket;
-
-connectToServer() {
+connectToServer() {  
   try {
     socket = io(
         // herokusocketurl,
-        'http://192.168.43.23:3000',
+        'http://192.168.181.51:3000',
         OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .disableAutoConnect() // disable auto-connection
@@ -51,10 +51,12 @@ livekitCall(token) async {
     dynacast: true,
     // ... your room options
   );
-  await room.connect('wss://ot-dev.livekit.cloud', token.toString(),
+  await room.connect('wss://ot-dev.livekit.cloud',
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbSI6Im15Um9vbSJ9LCJpYXQiOjE2NzQyODI3MDAsIm5iZiI6MTY3NDI4MjcwMCwiZXhwIjoxNjc0MzA0MzAwLCJpc3MiOiJBUElpdmlzanZuQlNwZWEiLCJzdWIiOiIyMzA0MDAiLCJqdGkiOiIyMzA0MDAifQ.LMKjQ6DBVCTn2X4ymbbLC0MKnuGoW9xdhlbGjC2q89Y",
       roomOptions: roomOptions);
 
   await room.localParticipant?.setMicrophoneEnabled(true);
+  await rtc.Helper.setSpeakerphoneOn(true);
 }
 
 sendData() {
@@ -66,7 +68,9 @@ sendData() {
   }
 }
 
-disconnect() {
-  room.disconnect();
-  socket.disconnect();
+disconnect() async {
+  await room.disconnect();
+  await room.dispose();
+  log("room disposed!!!");
+  // socket.disconnect();
 }
