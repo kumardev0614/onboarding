@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:onboarding/server/socketIo/socket_client.dart';
+import 'package:onboarding/views/callingpage.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -41,6 +44,7 @@ class HomePage extends StatelessWidget {
               ),
               onPressed: () {
                 randomCall(deviceId);
+                Get.to(const CallingPage());
               }, // emit msg
             ),
             const SizedBox(height: 50),

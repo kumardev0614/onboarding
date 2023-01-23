@@ -16,15 +16,16 @@ connectToServer() {
 
     socket.connect();
 
+    // All listeners -------------------------
     socket.on('connect', (_) {
       log(socket.id!); //outputs the socket id
     });
     socket.on("receiveToken", (token) async {
       await livekitCall(token);
     });
+    socket.on("chat message", (data) => log("Chat msg: $data"));
 
     socket.emit('chat message', 'Hello from flutter app');
-    socket.on("chat message", (data) => log("Chat msg: $data"));
   } catch (e) {
     log("============= ERROR in connection: $e ====================");
   }
@@ -62,6 +63,7 @@ livekitCall(token) async {
 
 sendData() {
   try {
+    log("Send Data");
     socket.emit('addValue', 5);
     socket.on("showValue", (data) => log("The sum is: $data"));
   } catch (e) {
@@ -69,9 +71,13 @@ sendData() {
   }
 }
 
-disconnect() async {
+roomDisconnect() async {
   await room.disconnect();
   // await room.dispose();
   log("room disconnected!!!");
-  // socket.disconnect();
+}
+
+disconnect() {
+  socket.disconnect();
+  log("Socket disconnected!!!");
 }
