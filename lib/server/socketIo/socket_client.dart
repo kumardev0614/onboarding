@@ -1,6 +1,10 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../controller/livekit_controller.dart';
 
 late Socket socket;
 connectToServer() {
@@ -54,6 +58,7 @@ livekitCall(token) async {
   //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbSI6IndhcnpvbmUiLCJjYW5QdWJsaXNoIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWV9LCJpYXQiOjE2NzQ0MDI5NDEsIm5iZiI6MTY3NDQwMjk0MSwiZXhwIjoxNjc0NDEwMTQxLCJpc3MiOiJBUElreldoYnhCYUdTaXEiLCJzdWIiOiJiaXN3YWppdCIsImp0aSI6ImJpc3dhaml0In0.ryCOz3M8RUO49rG9kDgdxWroufPVcUZpm5aY6WvOH6E",
   //     roomOptions: roomOptions);
 
+  await listener();
   await room.connect('wss://ot-dev.livekit.cloud', token,
       roomOptions: roomOptions);
 
@@ -61,11 +66,51 @@ livekitCall(token) async {
   // await rtc.Helper.setSpeakerphoneOn(true);
 }
 
+Future<void> listener() async {
+  var roomListener = room.createListener();
+
+  roomListener
+    ..on<TrackSubscribedEvent>((_) async {
+      LivekitController.instance.callStatus.value = "Connected";
+      await Fluttertoast.showToast(
+        msg: "Yippee!!! Call Connected",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    })
+    ..on<ParticipantDisconnectedEvent>((_) async {
+      await Fluttertoast.showToast(
+        msg: "Participant Disconnected",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    });
+}
+
 sendData() {
   try {
     log("Send Data");
     socket.emit('addValue', 5);
-    socket.on("showValue", (data) => log("The sum is: $data"));
+    socket.on("showValue", (data) async {
+      log("The sum is: $data");
+      await Fluttertoast.showToast(
+        msg: "Data recived: $data",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    });
   } catch (e) {
     log("============= ERROR in connection: $e ====================");
   }
@@ -73,8 +118,10 @@ sendData() {
 
 roomDisconnect() async {
   await room.disconnect();
+  room.dispose();
+  room = Room();
   // await room.dispose();
-  log("room disconnected!!!");
+  log("Room disconnected and disposed!!!");
 }
 
 disconnect() {

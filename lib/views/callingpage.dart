@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:get/get.dart';
+import 'package:onboarding/controller/livekit_controller.dart';
 import 'package:onboarding/server/socketIo/socket_client.dart';
 
 class CallingPage extends StatelessWidget {
@@ -16,7 +16,12 @@ class CallingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Enjoy the Conversation...'),
+            // Obx(() {
+            //   return
+            // }),
+            GetX<LivekitController>(builder: (controller) {
+              return Text(controller.callStatus.value);
+            }),
             const SizedBox(height: 20),
             ElevatedButton(
               child: const Text(
@@ -25,6 +30,7 @@ class CallingPage extends StatelessWidget {
               onPressed: () {
                 // disconnect();
                 Get.back();
+                LivekitController.instance.callStatus.value = "Connecting...";
                 roomDisconnect();
               },
             ),
