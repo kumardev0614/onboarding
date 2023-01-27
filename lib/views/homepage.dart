@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:onboarding/server/socketIo/socket_client.dart';
+
+import '../lib.dart';
+import 'ConnectedPage/view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,6 +27,7 @@ class HomePage extends StatelessWidget {
               ),
               onPressed: () {
                 connectToServer();
+                Get.to(() => ConnectedpagePage());
               }, // make a random call
             ),
             const SizedBox(height: 50),
@@ -30,8 +35,8 @@ class HomePage extends StatelessWidget {
               child: const Text(
                 'Send Data',
               ),
-              onPressed: () {
-                sendData();
+              onPressed: () async {
+                await makeGetRequest();
               }, // emit msg
             ),
             const SizedBox(height: 50),
@@ -39,8 +44,8 @@ class HomePage extends StatelessWidget {
               child: const Text(
                 'Call',
               ),
-              onPressed: () {
-                randomCall(deviceId);
+              onPressed: () async {
+                await randomCall(deviceId);
               }, // emit msg
             ),
             const SizedBox(height: 50),
@@ -48,8 +53,8 @@ class HomePage extends StatelessWidget {
               child: const Text(
                 'Disconnect',
               ),
-              onPressed: () {
-                disconnect();
+              onPressed: () async {
+                await disconnect();
               }, // emit msg
             ),
           ],
