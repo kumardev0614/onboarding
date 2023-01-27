@@ -163,6 +163,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.2"
+<<<<<<< HEAD
+=======
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.1.2"
+>>>>>>> 781ec7980d763389fc8d786dd9539777b2d20ccb
   get:
     dependency: "direct main"
     description:

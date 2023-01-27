@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+<<<<<<< HEAD
+=======
+// import 'package:get/get.dart';
+>>>>>>> 781ec7980d763389fc8d786dd9539777b2d20ccb
 import 'package:onboarding/server/socketIo/socket_client.dart';
+import 'package:onboarding/views/callingpage.dart';
 
 import '../lib.dart';
 import 'ConnectedPage/view.dart';
@@ -44,8 +49,24 @@ class HomePage extends StatelessWidget {
               child: const Text(
                 'Call',
               ),
+<<<<<<< HEAD
               onPressed: () async {
                 await randomCall(deviceId);
+=======
+              onPressed: () {
+                fixedCall(deviceId);
+                Get.to(const CallingPage());
+              }, // emit msg
+            ),
+            const SizedBox(height: 50),
+            ElevatedButton(
+              child: const Text(
+                'Random Call',
+              ),
+              onPressed: () {
+                randomCall();
+                // Get.to(const CallingPage());
+>>>>>>> 781ec7980d763389fc8d786dd9539777b2d20ccb
               }, // emit msg
             ),
             const SizedBox(height: 50),
