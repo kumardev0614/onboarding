@@ -1,17 +1,19 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../controller/livekit_controller.dart';
+import '../../views/callingpage.dart';
 
 late Socket socket;
 connectToServer() {
   try {
     socket = io(
         // herokusocketurl,
-        'http://192.168.200.51:3000',
+        'http://192.168.1.7:3000',
         OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .disableAutoConnect() // disable auto-connection
@@ -24,23 +26,48 @@ connectToServer() {
     socket.on('connect', (_) {
       log(socket.id!); //outputs the socket id
     });
-    socket.on("receiveToken", (token) async {
+
+    socket.on("chat message", (data) {
+      log("Chat msg: $data");
+    });
+
+    socket.on("receiveFixedToken", (token) async {
       await livekitCall(token);
     });
-    socket.on("chat message", (data) => log("Chat msg: $data"));
+
+    socket.on("receiveRandomToken", (token) async {
+      log("receiveRandomToken listener is called");
+      await Fluttertoast.showToast(
+        msg: "token: $token",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+      );
+      await livekitCall(token);
+    });
+
+    // ---------------------------------------
 
     socket.emit('chat message', 'Hello from flutter app');
   } catch (e) {
-    log("============= ERROR in connection: $e ====================");
+    log("ERROR in connection: $e");
   }
 }
 
-randomCall(int deviceId) {
+fixedCall(int deviceId) {
   try {
     // livekitCall();
     socket.emit('call', deviceId);
   } catch (e) {
-    log("============= ERROR in randomCall: $e ====================");
+    log("ERROR in fixedCall: $e");
+  }
+}
+
+randomCall() {
+  try {
+    // livekitCall();
+    socket.emit('randomCall');
+  } catch (e) {
+    log("ERROR in randomCall: $e");
   }
 }
 
@@ -49,21 +76,28 @@ Room room = Room();
 // livekit call
 livekitCall(token) async {
   // log("token is passed:$token");
+  await room.dispose();
+  room = Room();
 
+  Get.to(const CallingPage());
   const roomOptions = RoomOptions(
     adaptiveStream: true,
     dynacast: true,
   );
   // await room.connect('wss://demo.livekit.cloud',
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2aWRlbyI6eyJyb29tSm9pbiI6dHJ1ZSwicm9vbSI6IndhcnpvbmUiLCJjYW5QdWJsaXNoIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWV9LCJpYXQiOjE2NzQ0MDI5NDEsIm5iZiI6MTY3NDQwMjk0MSwiZXhwIjoxNjc0NDEwMTQxLCJpc3MiOiJBUElreldoYnhCYUdTaXEiLCJzdWIiOiJiaXN3YWppdCIsImp0aSI6ImJpc3dhaml0In0.ryCOz3M8RUO49rG9kDgdxWroufPVcUZpm5aY6WvOH6E",
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb29tSm9ufPVcUZpm5aY6WvOH6E",
   //     roomOptions: roomOptions);
 
   await listener();
-  await room.connect('wss://ot-dev.livekit.cloud', token,
-      roomOptions: roomOptions);
+  try {
+    await room.connect('wss://ot-dev.livekit.cloud', token,
+        roomOptions: roomOptions);
+  } catch (e) {
+    log("--------------------------------------------LiveKit Error: $e");
+    // roomDisconnect();
+  }
 
   await room.localParticipant?.setMicrophoneEnabled(true);
-  // await rtc.Helper.setSpeakerphoneOn(true);
 }
 
 Future<void> listener() async {
@@ -73,7 +107,7 @@ Future<void> listener() async {
     ..on<TrackSubscribedEvent>((_) async {
       LivekitController.instance.callStatus.value = "Connected";
       await Fluttertoast.showToast(
-        msg: "Yippee!!! Call Connected",
+        msg: "Call Connected",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
@@ -92,6 +126,9 @@ Future<void> listener() async {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+      Get.back();
+      await roomDisconnect();
+      LivekitController.instance.callStatus.value = "Connecting...";
     });
 }
 
@@ -105,20 +142,16 @@ sendData() {
         msg: "Data recived: $data",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black,
-        textColor: Colors.white,
-        fontSize: 16.0,
       );
     });
   } catch (e) {
-    log("============= ERROR in connection: $e ====================");
+    log("ERROR in send data: $e");
   }
 }
 
-roomDisconnect() async {
+Future roomDisconnect() async {
   await room.disconnect();
-  room.dispose();
+  await room.dispose();
   room = Room();
   // await room.dispose();
   log("Room disconnected and disposed!!!");
@@ -128,3 +161,9 @@ disconnect() {
   socket.disconnect();
   log("Socket disconnected!!!");
 }
+
+
+
+// ----------------------------------------------------------------
+
+

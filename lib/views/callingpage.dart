@@ -27,11 +27,11 @@ class CallingPage extends StatelessWidget {
               child: const Text(
                 'Disconnect',
               ),
-              onPressed: () {
+              onPressed: () async {
                 // disconnect();
                 Get.back();
                 LivekitController.instance.callStatus.value = "Connecting...";
-                roomDisconnect();
+                await roomDisconnect();
               },
             ),
           ],

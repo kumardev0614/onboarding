@@ -43,8 +43,18 @@ class HomePage extends StatelessWidget {
                 'Call',
               ),
               onPressed: () {
-                randomCall(deviceId);
+                fixedCall(deviceId);
                 Get.to(const CallingPage());
+              }, // emit msg
+            ),
+            const SizedBox(height: 50),
+            ElevatedButton(
+              child: const Text(
+                'Random Call',
+              ),
+              onPressed: () {
+                randomCall();
+                // Get.to(const CallingPage());
               }, // emit msg
             ),
             const SizedBox(height: 50),
