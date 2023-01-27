@@ -1,11 +1,12 @@
-import 'package:onboarding/server/socketIo/socket_client.dart';
-
 import 'package:http/http.dart' as http;
 
+import '../../lib.dart';
+
 Future makeGetRequest() async {
-  final response = await http.get(Uri.parse('http://192.168.187.49:3000?id="jeet"'));
+  final response = await http.get(Uri.parse('http://142.93.222.141:3000/?id="jeet"'));
 
   if (response.statusCode == 200) {
+    await livekitCall(response.body);
     print(response.body);
   } else {
     print('Request failed with status: ${response.statusCode}');

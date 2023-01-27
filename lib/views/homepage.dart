@@ -19,42 +19,34 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              child: const Text(
-                'Connect',
-              ),
-              onPressed: () {
-                connectToServer();
-                Get.to(() => ConnectedpagePage());
-              }, // make a random call
-            ),
+            // ElevatedButton(
+            //   child: const Text(
+            //     'Connect',
+            //   ),
+            //   onPressed: () {
+            //     connectToServer();
+            //     Get.to(() => ConnectedpagePage());
+            //   }, // make a random call
+            // ),
             const SizedBox(height: 50),
             ElevatedButton(
               child: const Text(
-                'Send Data',
+                'call',
               ),
               onPressed: () async {
                 await makeGetRequest();
               }, // emit msg
             ),
             const SizedBox(height: 50),
-            ElevatedButton(
-              child: const Text(
-                'Call',
-              ),
-              onPressed: () async {
-                await randomCall(deviceId);
-              }, // emit msg
-            ),
-            const SizedBox(height: 50),
-            ElevatedButton(
-              child: const Text(
-                'Disconnect',
-              ),
-              onPressed: () async {
-                await disconnect();
-              }, // emit msg
-            ),
+
+            // ElevatedButton(
+            //   child: const Text(
+            //     'Disconnect',
+            //   ),
+            //   onPressed: () async {
+            //     await disconnect();
+            //   }, // emit msg
+            // ),
           ],
         ),
       ),
