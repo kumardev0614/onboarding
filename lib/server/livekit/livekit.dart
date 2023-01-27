@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:get/get.dart';
 import 'package:livekit_client/livekit_client.dart';
+
+import '../../lib.dart';
 
 Room room = Room();
 livekitCall(token) async {
@@ -17,6 +20,8 @@ livekitCall(token) async {
   await room.connect('wss://ot-dev.livekit.cloud', token, roomOptions: roomOptions);
 
   await room.localParticipant?.setMicrophoneEnabled(true);
+
+  Get.to(() => ConnectedpagePage());
   // await rtc.Helper.setSpeakerphoneOn(true);
 }
 
