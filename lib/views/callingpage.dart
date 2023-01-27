@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onboarding/controller/livekit_controller.dart';
 import 'package:onboarding/lib.dart';
-import 'package:onboarding/server/socketIo/socket_client.dart';
 
 class CallingPage extends StatelessWidget {
   const CallingPage({super.key});
