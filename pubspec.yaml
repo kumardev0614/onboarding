@@ -34,12 +34,7 @@ dependencies:
     sdk: flutter
   get: ^4.6.5
   livekit_client: ^1.1.10
-<<<<<<< HEAD
   socket_io_client: ^1.0.2
-=======
-  get: 
-  fluttertoast: ^8.1.2
->>>>>>> 781ec7980d763389fc8d786dd9539777b2d20ccb
 
 dev_dependencies:
 
