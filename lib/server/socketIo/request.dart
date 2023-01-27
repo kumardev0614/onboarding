@@ -3,7 +3,8 @@ import 'package:onboarding/server/socketIo/socket_client.dart';
 import 'package:http/http.dart' as http;
 
 Future makeGetRequest() async {
-  final response = await http.get(Uri.parse('http://192.168.187.49:3000?id="jeet"'));
+  final response =
+      await http.get(Uri.parse('http://192.168.187.49:3000?id="jeet"'));
 
   if (response.statusCode == 200) {
     print(response.body);
