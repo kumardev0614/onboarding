@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 
-import 'controller.dart';
+import '../../lib.dart';
 
 class HomeBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<ConnectedpageController>(() => ConnectedpageController());
   }
 }

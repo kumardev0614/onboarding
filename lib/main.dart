@@ -15,12 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialBinding: ConnectedBinding(),
+      initialBinding: HomeBinding(),
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     );
   }
