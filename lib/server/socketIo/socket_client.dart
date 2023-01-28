@@ -13,10 +13,3 @@ connectToServer() {
 
   socket.connect();
 }
-
-
-
-
-// livekit call
-
-

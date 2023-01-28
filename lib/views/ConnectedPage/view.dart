@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/controller.dart';
+import '../../server/livekit/livekit.dart';
 import 'index.dart';
 
 class ConnectedpagePage extends GetView<ConnectedpageController> {
@@ -8,8 +10,29 @@ class ConnectedpagePage extends GetView<ConnectedpageController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("ConnectedpagePage"),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Obx(
+            () {
+              return Text(connectedPagectr.callStatus.value);
+            },
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            child: const Text(
+              'Disconnect',
+            ),
+            onPressed: () async {
+              // disconnect();
+              Get.back();
+              connectedPagectr.callStatus.value = "Connecting...";
+              await disconnect();
+            },
+          ),
+        ],
+      ),
     );
   }
 

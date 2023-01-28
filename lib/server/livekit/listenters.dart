@@ -9,15 +9,7 @@ Future<void> listener() async {
   roomListener
     ..on<TrackSubscribedEvent>((_) async {
       connectedPagectr.callStatus.value = "Connected";
-      // await Fluttertoast.showToast(
-      //   msg: "Call Connected",
-      //   toastLength: Toast.LENGTH_SHORT,
-      //   gravity: ToastGravity.TOP,
-      //   timeInSecForIosWeb: 1,
-      //   backgroundColor: Colors.black,
-      //   textColor: Colors.white,
-      //   fontSize: 16.0,
-      // );
+      Get.snackbar("trackSubscribed", "Call Connected");
     })
     ..on<ParticipantDisconnectedEvent>((_) async {
       // await Fluttertoast.showToast(
