@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'index.dart';
+import '../../lib.dart';
 
 class HomeController extends GetxController {
   HomeController();
@@ -23,8 +23,9 @@ class HomeController extends GetxController {
 
   /// 在 onInit() 之后调用 1 帧。这是进入的理想场所
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
+    connectToServer();
   }
 
   /// 在 [onDelete] 方法之前调用。

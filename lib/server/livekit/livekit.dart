@@ -31,7 +31,9 @@ livekitCall(token) async {
 
 Future disconnect() async {
   await room.disconnect();
-  // await room.dispose();
-  log("room disconnected!!!");
+  await room.dispose();
+  room = Room();
+  homeController.state.iamNotBusy = true;
+  log("--------- room disconnected!!! ---------- ");
   // socket.disconnect();
 }

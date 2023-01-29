@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../server/socketIo/request.dart';
-import 'index.dart';
+import 'package:onboarding/lib.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -18,8 +16,9 @@ class HomePage extends GetView<HomeController> {
             child: const Text(
               'Call',
             ),
-            onPressed: () async {
-              await makeGetRequest();
+            onPressed: () {
+              randomCall();
+              Get.to(ConnectedpagePage());
             }, // emit msg
           ),
           const SizedBox(height: 50),

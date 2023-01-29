@@ -32,14 +32,3 @@ Future makeGetRequest() async {
 //     log("============= ERROR in connection: $e ====================");
 //   }
 // }
-
-Future randomCall(int deviceId) async {
-  try {
-    // livekitCall();
-    // socket.emit('call', deviceId);
-    var token = await makeGetRequest();
-    await livekitCall(token);
-  } catch (e) {
-    print("============= ERROR in randomCall: $e ====================");
-  }
-}

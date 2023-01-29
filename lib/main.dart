@@ -5,7 +5,6 @@ import 'lib.dart';
 
 void main() {
   runApp(const MyApp());
-  // connectToServer();
 }
 
 class MyApp extends StatelessWidget {
