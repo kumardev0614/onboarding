@@ -49,7 +49,20 @@ class BottomNavigation extends StatelessWidget {
   }
 
   List<Widget> _buildScreens() {
-    return [];
+    return [
+      Container(
+        color: Colors.green,
+      ),
+      Container(
+        color: Colors.yellow,
+      ),
+      Container(
+        color: Colors.red,
+      ),
+      Container(
+        color: Colors.white,
+      ),
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
