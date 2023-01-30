@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../lib.dart';
 
@@ -8,10 +8,10 @@ class HomeController extends GetxController {
 
   final state = HomeState();
 
-  var tabIndex = 0;
-
+  PersistentTabController tabCtr = PersistentTabController(initialIndex: 0);
+  DateTime backButtonPressedAt = DateTime.now();
   void changeTabIndex(int index) {
-    tabIndex = index;
+    tabCtr.index = index;
 
     update();
   }
