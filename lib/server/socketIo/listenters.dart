@@ -23,13 +23,13 @@ socketListeners() {
       await livekitCall(token);
     });
 
-    socket.on("rejectedCallAgain", (id) {
-      socket.emit("userWantToConnect", "Hi");
-    });
+    // socket.on("rejectedCallAgain", (id) {
+    //   socket.emit("userWantToConnect", "Hi");
+    // });
 
     // socket.emit('chat message', 'Hello from flutter app');
     // socket.on("chat message", (data) => print("Chat msg: $data"));
   } catch (e) {
-    print("============= ERROR in connection: $e ====================");
+    log("============= ERROR in connection: $e ====================");
   }
 }

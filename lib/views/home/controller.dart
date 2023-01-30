@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../lib.dart';
@@ -7,12 +8,12 @@ class HomeController extends GetxController {
 
   final state = HomeState();
 
-  // tap
-  void handleTap(int index) {
-    Get.snackbar(
-      "标题",
-      "消息",
-    );
+  var tabIndex = 0;
+
+  void changeTabIndex(int index) {
+    tabIndex = index;
+
+    update();
   }
 
   /// 在 widget 内存中分配后立即调用。

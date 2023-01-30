@@ -25,15 +25,19 @@ livekitCall(token) async {
   await room.localParticipant?.setMicrophoneEnabled(true);
 
   // Get.to(() => CallingPage());
-  Get.to(() => ConnectedpagePage());
+  Get.to(() => const ConnectedpagePage());
   // await rtc.Helper.setSpeakerphoneOn(true);
 }
 
 Future disconnect() async {
-  await room.disconnect();
-  await room.dispose();
-  room = Room();
-  homeController.state.iamNotBusy = true;
-  log("--------- room disconnected!!! ---------- ");
+  if (homeController.state.iamNotBusy == true) {
+    disconnectBeforeCall();
+  } else {
+    await room.disconnect();
+    await room.dispose();
+    room = Room();
+    homeController.state.iamNotBusy = true;
+    log("--------- room disconnected!!! ---------- ");
+  }
   // socket.disconnect();
 }

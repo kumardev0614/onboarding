@@ -19,5 +19,9 @@ connectToServer() {
 }
 
 randomCall() {
-  socket.emit("userWantToConnect", "Hi");
+  socket.emit("userWantToConnect", socket.id);
+}
+
+disconnectBeforeCall() {
+  socket.emit("disconnectBeforeCall", socket.id);
 }
